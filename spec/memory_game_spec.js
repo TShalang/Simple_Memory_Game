@@ -1,10 +1,15 @@
 const { JSDOM } = require("jsdom");
 const fs = require("fs");
 const index = fs.readFileSync("index.html", "utf-8");
-
 const { document } = new JSDOM(index).window;
 global.document = document;
-const { cards, matchCount } = require("../src/memory_game");
+const {
+  cards,
+  matchCount,
+  getGridSize,
+  outputSeconds,
+  countFlip,
+} = require("../src/memory_game");
 
 describe("index.html", function () {
   beforeEach(function (done) {
@@ -13,24 +18,32 @@ describe("index.html", function () {
       done();
     });
   });
-  it(`should have </div> element`, function () {
-    const div = browser.window.document.querySelector(`div`);
-    expect(div).not.toBe(null);
-  });
-  it(`should have </script> element`, function () {
-    const script = browser.window.document.querySelector(`script`);
-    expect(script).not.toBe(null);
-  });
-  it(`should have </img> element`, function () {
-    const img = browser.window.document.querySelector(`img`);
-    expect(img).not.toBe(null);
-  });
-  it("should have 12 cards displayed", () => {
-    expect(cards.length).toEqual(12);
+  it("should have a total of 16 cards to display", () => {
+    expect(cards.length).toEqual(16);
   });
   it("should check if the card flips when button is clicked", () => {
     expect(matchCount).toEqual(0);
     cards[0].click();
     expect(matchCount.innerHTML).not.toEqual(0);
+  });
+  it("should remove grid selection after choosing grid size", () => {
+    const gridButtons = document.querySelector(".gridButton");
+    gridButtons.addEventListener("click", getGridSize);
+    expect(document.getElementById("grid").style.display).toBe("");
+    gridButtons.click();
+    expect(document.getElementById("grid").style.display).toBe("none");
+  });
+  it("should start timer when grid size is chosen", () => {
+    expect(outputSeconds.innerHTML).toBe("00");
+    cards[0].click();
+    setTimeout(() => {
+      expect(outputSeconds.innerHTML).not.toBe("00");
+    }, 1000);
+  });
+  it("should increment flip count by 1 when card is clicked", () => {
+    expect(countFlip).toEqual(0);
+    cards[0].click();
+    cards[1].click();
+    expect(document.getElementById("flips").innerHTML).toBe("2");
   });
 });

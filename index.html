@@ -1,73 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memory Game</title>
-    <link rel="stylesheet" href="./css/styles.css">
-</head>
-<body>
-  <div class="heading">
-    <h1>Memory Game App</h1>
-</div>
-    <section class="memory-game">
- 
-        <div class="memory-card" data-framework="number5">
-          <img class="front-face" src="img/number5.webp" alt="number5" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div id="grid" class="overlay">
+      <div class="overlay-content">
+        <div id="sizeSelection">
+          <h2 style="color: white">Select a grid size to start the game</h2>
+          <br />
+          <button class="x3x2 gridButton" onclick="getGridSize('x3x2')">
+            3x2
+          </button>
+          <button class="x4x3 gridButton" onclick="getGridSize('x4x3')">
+            4x3
+          </button>
+          <button class="x4x4 gridButton" onclick="getGridSize('x4x4')">
+            4x4
+          </button>
         </div>
-        <div class="memory-card" data-framework="number5">
-          <img class="front-face" src="img/number5.webp" alt="number5" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
+
+        <div id="winner">
+          <h1 style="color: white">You've done it. Well Done!</h1>
+          <br />
+          <h2 style="color: white">Time Taken: <span id="time"></span></h2>
+          <br />
+          <h2 style="color: white">
+            Cards Flipped: <span id="flipCount"></span>
+          </h2>
+          <br />
+          <button class="gridButton" onclick="restartGame()">Play Again</button>
         </div>
-    
-        <div class="memory-card" data-framework="courage">
-          <img class="front-face" src="img/Courage.png" alt="courage" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+    </div>
+
+    <div class="heading">
+      <div class="row">
+        <div class="column left">
+          <p id="time">
+            <span id="minute">00</span>:<span id="second">00</span>
+          </p>
         </div>
-        <div class="memory-card" data-framework="courage">
-          <img class="front-face" src="img/Courage.png" alt="courage" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
+        <div class="column middle">
+          <h1>Memory Game App</h1>
         </div>
-    
-        <div class="memory-card" data-framework="johnny">
-          <img class="front-face" src="img/JohnnyBravo.webp" alt="johnny" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
+        <div class="column right">
+          <p ><span>Flip Count: </span><span id="flips">0</span></p>
         </div>
-        <div class="memory-card" data-framework="johnny">
-          <img class="front-face" src="img/JohnnyBravo.webp" alt="johnny" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
-        </div>
-    
-        <div class="memory-card" data-framework="kim">
-          <img class="front-face" src="img/KimPossible.jfif" alt="kim" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
-        </div>
-        <div class="memory-card" data-framework="kim">
-          <img class="front-face" src="img/KimPossible.jfif" alt="kim" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
-        </div>
-    
-        <div class="memory-card" data-framework="mandy">
-          <img class="front-face" src="img/Mandy.png" alt="mandy" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
-        </div>
-        <div class="memory-card" data-framework="mandy">
-          <img class="front-face" src="img/Mandy.png" alt="mandy" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
-        </div>
-    
-        <div class="memory-card" data-framework="jojo">
-          <img class="front-face" src="img/MojoJojo.jpg" alt="jojo" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
-        </div>
-        <div class="memory-card" data-framework="jojo">
-          <img class="front-face" src="img/MojoJojo.jpg" alt="React" />
-          <img class="back-face" src="img/Question.jfif" alt="Question" />
-        </div>
-   
-      </section>
+      </div>
+    </div>
+
+    <section id="memory-game" class="x3x2">
+      <div class="memory-card" data-framework="number5">
+        <img class="front-face" src="img/number5.webp" alt="number5" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+      <div class="memory-card" data-framework="number5">
+        <img class="front-face" src="img/number5.webp" alt="number5" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+
+      <div class="memory-card" data-framework="courage">
+        <img class="front-face" src="img/Courage.png" alt="courage" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+      <div class="memory-card" data-framework="courage">
+        <img class="front-face" src="img/Courage.png" alt="courage" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+
+      <div class="memory-card" data-framework="johnny">
+        <img class="front-face" src="img/JohnnyBravo.webp" alt="johnny" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+      <div class="memory-card" data-framework="johnny">
+        <img class="front-face" src="img/JohnnyBravo.webp" alt="johnny" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+
+      <div class="memory-card" data-framework="kim">
+        <img class="front-face" src="img/KimPossible.jfif" alt="kim" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+      <div class="memory-card" data-framework="kim">
+        <img class="front-face" src="img/KimPossible.jfif" alt="kim" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+
+      <div class="memory-card" data-framework="mandy">
+        <img class="front-face" src="img/Mandy.png" alt="mandy" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+      <div class="memory-card" data-framework="mandy">
+        <img class="front-face" src="img/Mandy.png" alt="mandy" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+
+      <div class="memory-card" data-framework="jojo">
+        <img class="front-face" src="img/MojoJojo.jpg" alt="jojo" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+      <div class="memory-card" data-framework="jojo">
+        <img class="front-face" src="img/MojoJojo.jpg" alt="React" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+
+      <div class="memory-card" data-framework="blossom">
+        <img class="front-face" src="img/Blossom.webp" alt="blossom" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+      <div class="memory-card" data-framework="blossom">
+        <img class="front-face" src="img/Blossom.webp" alt="blossom" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+
+      <div class="memory-card" data-framework="dexter">
+        <img class="front-face" src="img/Dexter.png" alt="dexter" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+      <div class="memory-card" data-framework="dexter">
+        <img class="front-face" src="img/Dexter.png" alt="dexter" />
+        <img class="back-face" src="img/Question.jfif" alt="Question" />
+      </div>
+    </section>
+
     <script src="./src/memory_game.js"></script>
-</body>
+  </body>
 </html>
